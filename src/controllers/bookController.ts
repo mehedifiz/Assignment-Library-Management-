@@ -25,7 +25,7 @@ bookrouter.post('/', async(req : Request , res : Response)=>{
 bookrouter.get('/', async (req: Request, res: Response) => {
   try {
     const {
-      filter, sort = "asc",limit = 1, } = req.query;
+      filter, sort = "asc",limit = 10, } = req.query;
 
     let Books ; 
 
@@ -81,8 +81,62 @@ bookrouter.get("/:id" , async (req , res)=>{
 } )
 
 
+bookrouter.put("/:id" , async(req ,res)=>{
+  try {
+
+    // console.log(req.body);
+
+   const book = await Book.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,})
+
+      // console.log(book);
+      if(book){
+        res.json({
+          success: true,
+          message: 'Book updated successfully',
+          data: book,
+        }); 
+      }else{
+      res.json({
+        success: false,
+        message: 'Book not found',
+      });
+    }
+    
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: "Failed to update book",
+      error: error.message,
+    });
+    
+  }
+})
  
 
 
+bookrouter.delete("/:id" , async(req ,res)=>{
+  try {
+    const book = await Book.findByIdAndDelete(req.params.id);
 
+    if (book) {
+      res.json({
+        success: true,
+        message: "Book deleted successfully",
+        "data": book
+      });
+    } else {
+      res.json({
+        success: false,
+        message: "Book not found",
+      });
+    }
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: "Failed to delete book",
+      error: error.message,
+    });
+  }
+})
 
