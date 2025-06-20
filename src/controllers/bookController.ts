@@ -1,16 +1,40 @@
+import { z } from 'zod';
 import { Book } from './../models/book.model';
 import express, { Request, Response } from 'express';
 
 export  const bookrouter = express.Router();
 
+
+const createBookZod = z.object({
+    title: z.string(),
+    author: z.string(),
+    genre: z.string(),
+    isbn: z.string(),
+    description: z.string(),
+    copies: z.number(),
+    available: z.boolean(),
+    
+
+})
+
 bookrouter.post('/', async(req : Request , res : Response)=>{
      try {
-    const result = await Book.create(req.body);
+    const validatedbook = createBookZod.parse(req.body);
+    const newBook = new Book(validatedbook);
+    const result = await newBook.save();
     res.status(201).json({
       success: true,
       message: 'Book created successfully',
       data: result,
     });
+
+
+    // const result = await Book.create(req.body);
+    // res.status(201).json({
+    //   success: true,
+    //   message: 'Book created successfully',
+    //   data: result,
+    // });
   } catch (error : any) {
     res.status(400).json({
       success: false,

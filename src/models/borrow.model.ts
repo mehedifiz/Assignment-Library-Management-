@@ -44,20 +44,8 @@ next()
 })
 
 borrowSchema.post('save', async function (doc) {
-  const book = await Book.findById(doc.book);
-
-  console.log(book);
-   
-
-  book.copies -= doc.quantity;
-  if (book.copies <= 0) {
-    book.available = false;
-    book.copies = 0;
-  }
-
-  await book.save();
+  await Book.updatequantity(doc.book, doc.quantity);
 });
-
 
 
 export const Borrow = model<IBorrow>('Borrow', borrowSchema);
