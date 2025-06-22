@@ -9,6 +9,10 @@ const app: Application = express();
 
 app.use(express.json())
 
+app.get("/" ,(req , res)=>{
+  res.send("SERVER IS RUNNING");
+})
+
 
 
 app.use("/api/books" , bookrouter)
@@ -16,12 +20,11 @@ app.use("/api/borrow" , borrowrouter)
 
 
 // not found
-app.use((req, res) => {
+app.use((req, res) => { 
   res.status(404).json({
     message: "Route not found",
   });
 });
-
 
 
 

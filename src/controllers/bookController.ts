@@ -8,7 +8,7 @@ export  const bookrouter = express.Router();
 const createBookZod = z.object({
     title: z.string(),
     author: z.string(),
-    genre: z.string(),
+    genre: z.string(), 
     isbn: z.string(),
     description: z.string(),
     copies: z.number(),
@@ -127,7 +127,7 @@ bookrouter.put("/:id" , async(req ,res)=>{
       });
     }
     
-  } catch (error) {
+  } catch (error: any) {
     res.status(400).json({
       success: false,
       message: "Failed to update book",
@@ -155,7 +155,7 @@ bookrouter.delete("/:id" , async(req ,res)=>{
         message: "Book not found",
       });
     }
-  } catch (error) {
+  } catch (error : any) {
     res.status(400).json({
       success: false,
       message: "Failed to delete book",

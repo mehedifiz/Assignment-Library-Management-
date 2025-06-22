@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 
 let server: Server;
 async function main() {
-  await mongoose.connect("mongodb://localhost:27017");
+  await mongoose.connect("mongodb+srv://cardoc:RoW3yHEXZgvxRJG5@cluster0.ensactw.mongodb.net");
   console.log("connected to database");
 
   server = app.listen(3000, () => {
